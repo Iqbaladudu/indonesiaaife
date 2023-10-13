@@ -1,0 +1,5 @@
+.boxShadowPrimary {
+    box-shadow: 0px 0px 0px 2px var(--bs-primary);
+    -webkit-box-shadow: 0px 0px 0px 2px var(--bs-primary);
+    -moz-box-shadow: 0px 0px 0px 2px var(--bs-primary);
+}

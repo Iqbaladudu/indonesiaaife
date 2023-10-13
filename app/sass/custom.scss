@@ -1,0 +1,18 @@
+$theme-colors: (
+    'primary': #E84D4D,
+    'secondary': #FBD87F,
+    'light': #F8F8F8,
+    "gray": #F1F1F1,
+    "gray-dark": #576168,   
+    "primary-light": #F5D9D9,
+);
+
+$font-sizes: (
+    'heading': 30px,
+    'regular': 16px
+);
+
+$focus-ring-width: 0px;
+$box-shadow: 10 10 10px red;
+
+@import '~bootstrap/scss/bootstrap';

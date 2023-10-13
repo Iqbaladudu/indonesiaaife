@@ -1,0 +1,8 @@
+input[type="checkbox"]:checked {
+    background-color: var(--bs-primary);
+    border: 1px solid var(--bs-primary);
+}
+
+input[type="checkbox"] {
+    border: 1px solid var(--bs-primary);
+}
