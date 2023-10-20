@@ -1,3 +1,13 @@
-.sidebarStyling {
-    width: calc(100vw - 85%);
+.fullWidthSidebar {
+    width: calc(100vw - (100vw - 260px));
+}
+
+.collapse {
+    width: calc(100vw - (100vw - 78px));
+}
+
+.modal {
+    position: absolute;
+    top: 19vh;
+    left: 10vh;
 }

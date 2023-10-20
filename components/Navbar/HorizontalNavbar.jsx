@@ -1,12 +1,7 @@
 "use client";
 
-import React, { useEffect, useReducer, useState } from "react";
-import {
-  Navbar as BaseNavbar,
-  Button,
-  Container,
-  Modal,
-} from "react-bootstrap";
+import React, { useState } from "react";
+import { Navbar as BaseNavbar, Container } from "react-bootstrap";
 import {
   BsList,
   BsFillBellFill,
@@ -17,6 +12,7 @@ import axioma from "@/public/axioma.svg";
 import Image from "next/image";
 import styles from "./horizontalNavbar.module.css";
 import avatar from "@/public/avatar.png";
+import { useCollapseStore } from "@/app/store";
 
 const profileMenu = [
   {
@@ -42,21 +38,14 @@ const profileMenu = [
 ];
 
 const NavbarBrand = () => {
-  const [collapse, setCollapse] = useState(false);
+  const toggle = useCollapseStore((state) => state.toggle);
 
   return (
     <>
-      <style type="text/css">
-        {`
-                .lala:active .sidebar {
-                  background-color: red;
-                }
-            `}
-      </style>
       <div className="d-flex flex-row gap-0 column-gap-5 align-items-center">
-        <button className="btn" onClick={() => setCollapse(true)}>
-          <BsList style={{ fontSize: "30px" }} />
-        </button>
+        <div className="">
+          <BsList style={{ fontSize: "30px" }} onClick={() => toggle()} />
+        </div>
         <div className="d-flex gap-0 column-gap-3 align-items-center">
           <Image src={axioma} alt="" />
           <span className="fw-bold">Axioma</span>
@@ -67,17 +56,6 @@ const NavbarBrand = () => {
 };
 
 function ProfileModal({ show }) {
-  const handleClickOutside = (event) => {
-    if (event.target.closest(".my-component") === null) {
-      console.log("clicked");
-    }
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", handleClickOutside);
-    return () => document.removeEventListener("click", handleClickOutside);
-  }, []);
-
   return (
     <div
       className={`card ${
@@ -144,8 +122,8 @@ const NavbarRightIcons = () => {
         <BsFillBellFill />
         <BsFillMoonFill />
       </div>
-      <button
-        className="btn d-flex flex-row align-items-center gap-0 column-gap-2"
+      <div
+        className="d-flex flex-row align-items-center gap-0 column-gap-2"
         onClick={() => setShowProfileModal(!showProfileModal)}
       >
         <div
@@ -153,7 +131,7 @@ const NavbarRightIcons = () => {
           className="bg-primary rounded-circle"
         ></div>
         <BsCaretDown />
-      </button>
+      </div>
       <ProfileModal show={showProfileModal} />
     </div>
   );
@@ -161,7 +139,7 @@ const NavbarRightIcons = () => {
 
 const HorizontalNavbar = () => {
   return (
-    <BaseNavbar expand="lg" className="bg-light px-5 h-auto py-4">
+    <BaseNavbar expand="lg" className="bg-light h-auto py-4">
       <Container fluid>
         <div className="d-flex flex-row vw-100 justify-content-between">
           <NavbarBrand />

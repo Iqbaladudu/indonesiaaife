@@ -12,7 +12,9 @@ function Alert({ children, variants }) {
                 background-color: #CFF5D2
             }
             .alert-success {
-                background-color: #CFF4FC
+                background-color: #CFF4FC;
+                border: 1px solid #055160;
+                color: #055160;
             }
             .alert-warning {
                 background-color: #664D03
