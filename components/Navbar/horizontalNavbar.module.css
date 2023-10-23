@@ -3,3 +3,10 @@
     top: 8vh;
     right: 10vh;
 }
+
+.notifModal {
+    position: absolute;
+    top: 8vh;
+    right: 22vh;
+    width: 40vh;
+}

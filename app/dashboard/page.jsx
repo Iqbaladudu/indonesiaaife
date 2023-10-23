@@ -19,7 +19,7 @@ const Page = () => {
           <Col className="d-flex flex-column gap-0 row-gap-5 justify-content-start p-5">
             <div
               style={{ display: "block", position: "initial" }}
-              className={`${alertClose && "d-none"}`}
+              className={`${alertClose && "invisible"}`}
             >
               <Modal.Dialog>
                 <Alert variants="success">

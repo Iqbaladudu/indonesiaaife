@@ -14,6 +14,11 @@ import styles from "./verticalNavbar.module.css";
 import { useCollapseStore } from "@/app/store";
 import { useMediaQuery } from "react-responsive";
 
+import carImg from "@/public/car.png";
+import bananaImg from "@/public/banana.png";
+import roadImg from "@/public/road.png";
+import Image from "next/image";
+
 const menu = [
   {
     nama: "Beranda",
@@ -60,25 +65,34 @@ const engine = [
 ];
 
 const projectList = [
-  { label: "Second Project", icon: "" },
-  { label: "Three Project", icon: "" },
+  { label: "Second Project", icon: bananaImg },
+  { label: "Three Project", icon: roadImg },
 ];
 
 function ProjectModal({ show }) {
+  const [selected, setSelected] = useState();
   return (
     <div
       className={`card ${
         styles.modal
       } my-component d-flex p-3 border-0 shadow-lg ${!show && "invisible"}`}
+      style={{ zIndex: 100 }}
     >
       <p style={{ fontSize: "13px" }}>Daftar Project</p>
       {projectList.map(({ label, icon }, index) => (
-        <div className="d-flex flex-row gap-0 column-gap-2" key={index}>
+        <div
+          className={`d-flex flex-row px-2 py-2 rounded align-items-center gap-0 column-gap-2 ${selected ===
+            label && "bg-gray-light"}`}
+          key={index}
+          onClick={() => setSelected(label)}
+        >
           <div
             style={{ height: "28px", width: "28px" }}
             className="bg-primary rounded-2"
-          ></div>
-          <p>{label}</p>
+          >
+            <Image src={icon} alt="project-icon" />
+          </div>
+          <p className="my-auto">{label}</p>
         </div>
       ))}
     </div>
@@ -94,7 +108,7 @@ const VerticalNavbar = () => {
   return (
     <>
       <div
-        className={`bg-light d-flex flex-column justify-content-start pt-5 gap-0 row-gap-3 ${
+        className={`bg-light d-flex flex-column justify-content-start pt-3 gap-0 row-gap-3 ${
           collapse
             ? isMobile
               ? "d-none"
@@ -107,16 +121,18 @@ const VerticalNavbar = () => {
             "align-items-center"}`}
         >
           <div
-            className={`d-flex flex-row gap-0 column-gap-3 p-2 ${!collapse &&
+            className={`d-flex flex-row rounded-3 gap-0 column-gap-3 p-2 ${!collapse &&
               "bg-gray"}`}
           >
             <div
               style={{ width: "42px", height: "42px" }}
-              className={`bg-primary ${
-                collapse ? "rounded-circle" : "rounded-3"
+              className={`${
+                collapse ? "rounded-circle overflow-hidden" : "rounded-3"
               }`}
               onClick={() => setShow(!show)}
-            ></div>
+            >
+              <Image src={carImg} alt="project" />
+            </div>
             <div
               className={`d-flex flex-row gap-0 column-gap-3 align-items-center ${collapse &&
                 "d-none"}`}
@@ -127,10 +143,10 @@ const VerticalNavbar = () => {
                   style={{ fontSize: "16px" }}
                   className="m-0 text-primary fw-bold"
                 >
-                  First Project
+                  Car Detection
                 </p>
                 <p style={{ fontSize: "12px" }} className="m-0">
-                  Indo AI Workspace
+                  Indo AI Workspaces
                 </p>
               </div>
               <div className="fw-bold">
