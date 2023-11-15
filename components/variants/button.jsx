@@ -7,7 +7,8 @@ function Button({ children, variants }) {
       <style type="text/css">
         {`
                 .btn-primary {
-                    color: #F5D9D9
+                    color: #F5D9D9;
+                    font-size: 16px;
                 }
                 .btn-primary:hover {
                     color: #F5D9D9;
@@ -18,7 +19,7 @@ function Button({ children, variants }) {
                 }
             `}
       </style>
-      <BaseButton variants={variants} size="lg" className={styles.primaryactv}>
+      <BaseButton variants={variants} className={styles.primaryactv}>
         {children}
       </BaseButton>
     </>

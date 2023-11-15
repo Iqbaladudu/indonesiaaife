@@ -2,8 +2,6 @@ import { useState } from "react";
 import {
   BsHouseDoor,
   BsPerson,
-  BsUpload,
-  BsTextareaT,
   BsFillImageFill,
   BsInfoCircle,
   BsHeadset,
@@ -18,49 +16,62 @@ import carImg from "@/public/car.png";
 import bananaImg from "@/public/banana.png";
 import roadImg from "@/public/road.png";
 import Image from "next/image";
+import { Dropdown, DropdownHeader } from "react-bootstrap";
+import { useRouter } from "next/navigation";
+import { FaVectorSquare } from "react-icons/fa";
+import { FiUploadCloud } from "react-icons/fi";
 
 const menu = [
   {
     nama: "Beranda",
-    icon: <BsHouseDoor />,
+    icon: <BsHouseDoor className={`styles.h16w16`} />,
+    url: "home",
   },
   {
     nama: "Upload",
-    icon: <BsUpload />,
+    icon: <FiUploadCloud className={`styles.h16w16`} />,
+    url: "upload",
   },
   {
     nama: "Labeling",
-    icon: <BsTextareaT />,
+    icon: <FaVectorSquare className={`styles.h16w16`} />,
+    url: "labeling",
   },
   {
     nama: "Hasil",
-    icon: <BsFillImageFill />,
+    icon: <BsFillImageFill className={`styles.h16w16`} />,
+    url: "result",
   },
   {
     nama: "Profil Akun",
-    icon: <BsPerson />,
+    icon: <BsPerson className={`styles.h16w16`} />,
+    url: "profile",
   },
 ];
 
 const information = [
   {
     nama: "Tutorial",
-    icon: <BsInfoCircle />,
+    icon: <BsInfoCircle className={`styles.h16w16`} />,
+    url: "tutorial",
   },
   {
     nama: "Help & Support",
-    icon: <BsHeadset />,
+    icon: <BsHeadset className={`styles.h16w16`} />,
+    url: "help",
   },
 ];
 
 const engine = [
   {
     nama: "Demo",
-    icon: <BsInfoCircle />,
+    icon: <BsInfoCircle className={`styles.h16w16`} />,
+    url: "demo",
   },
   {
     nama: "Lihat Info",
-    icon: <BsHeadset />,
+    icon: <BsHeadset className={`styles.h16w16`} />,
+    url: "info",
   },
 ];
 
@@ -69,41 +80,12 @@ const projectList = [
   { label: "Three Project", icon: roadImg },
 ];
 
-function ProjectModal({ show }) {
-  const [selected, setSelected] = useState();
-  return (
-    <div
-      className={`card ${
-        styles.modal
-      } my-component d-flex p-3 border-0 shadow-lg ${!show && "invisible"}`}
-      style={{ zIndex: 100 }}
-    >
-      <p style={{ fontSize: "13px" }}>Daftar Project</p>
-      {projectList.map(({ label, icon }, index) => (
-        <div
-          className={`d-flex flex-row px-2 py-2 rounded align-items-center gap-0 column-gap-2 ${selected ===
-            label && "bg-gray-light"}`}
-          key={index}
-          onClick={() => setSelected(label)}
-        >
-          <div
-            style={{ height: "28px", width: "28px" }}
-            className="bg-primary rounded-2"
-          >
-            <Image src={icon} alt="project-icon" />
-          </div>
-          <p className="my-auto">{label}</p>
-        </div>
-      ))}
-    </div>
-  );
-}
-
 const VerticalNavbar = () => {
   const [menuList, setMenuList] = useState("Beranda");
   const collapse = useCollapseStore((state) => state.collapse);
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
   const [show, setShow] = useState(false);
+  const router = useRouter();
 
   return (
     <>
@@ -114,68 +96,106 @@ const VerticalNavbar = () => {
               ? "d-none"
               : styles.collapse
             : styles.fullWidthSidebar
-        }`}
+        }
+        } ${isMobile && styles.absolute} ${styles.transition} `}
       >
         <div
-          className={`d-flex flex-column gap-0 row-gap-4 ${collapse &&
-            "align-items-center"}`}
+          className={`d-flex flex-column gap-0 row-gap-4 ${
+            collapse && "align-items-center"
+          }`}
         >
-          <div
-            className={`d-flex flex-row rounded-3 gap-0 column-gap-3 p-2 ${!collapse &&
-              "bg-gray"}`}
-          >
+          <Dropdown drop="center">
             <div
-              style={{ width: "42px", height: "42px" }}
-              className={`${
-                collapse ? "rounded-circle overflow-hidden" : "rounded-3"
+              style={{ cursor: "pointer" }}
+              className={`d-flex flex-row rounded-3 align-items-center gap-0 column-gap-3 p-2 ${
+                !collapse && "bg-gray"
               }`}
               onClick={() => setShow(!show)}
             >
-              <Image src={carImg} alt="project" />
+              <div
+                style={{ width: "42px", height: "42px", cursor: "pointer" }}
+                className={`${
+                  collapse ? "rounded-circle overflow-hidden" : "rounded-3"
+                }`}
+              >
+                <Image src={carImg} alt="project" />
+              </div>
+              <div
+                className={`d-flex flex-row gap-0 column-gap-3 align-items-center ${
+                  collapse && "d-none"
+                }`}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="d-flex flex-column">
+                  <p className="m-0 text-primary fw-bold fs-normal">
+                    Car Detection
+                  </p>
+                  <p className="m-0 fs-label">Indo AI Workspaces</p>
+                </div>
+                <div className="fw-bold">
+                  <BsChevronDown />
+                </div>
+              </div>
             </div>
-            <div
-              className={`d-flex flex-row gap-0 column-gap-3 align-items-center ${collapse &&
-                "d-none"}`}
-              onClick={() => setShow(!show)}
+            <Dropdown.Menu
+              className="border border-0 shadow-lg px-2"
+              align="start"
+              as="div"
+              show={show}
             >
-              <div className="d-flex flex-column">
-                <p
-                  style={{ fontSize: "16px" }}
-                  className="m-0 text-primary fw-bold"
+              <DropdownHeader as="p">Daftar Project</DropdownHeader>
+              {projectList.map(({ label, icon }, index) => (
+                <Dropdown.Item
+                  className={`d-flex flex-row px-2 py-2 rounded align-items-center gap-0 column-gap-2`}
+                  key={index}
+                  style={{ cursor: "pointer" }}
+                  href="#"
                 >
-                  Car Detection
-                </p>
-                <p style={{ fontSize: "12px" }} className="m-0">
-                  Indo AI Workspaces
-                </p>
+                  <div
+                    style={{ height: "28px", width: "28px" }}
+                    className="bg-primary rounded-2"
+                  >
+                    <Image src={icon} alt="project-icon" />
+                  </div>
+                  <p className="my-auto fs-normal">{label}</p>
+                </Dropdown.Item>
+              ))}
+              <div
+                style={{ fontSize: "12px", cursor: "pointer" }}
+                className="text-center text-primary"
+              >
+                Lebih banyak
               </div>
-              <div className="fw-bold">
-                <BsChevronDown />
-              </div>
-            </div>
-          </div>
-          <ProjectModal show={show} />
-          <div className="d-flex flex-column gap-0 row-gap-2">
+            </Dropdown.Menu>
+          </Dropdown>
+          <div className="d-flex flex-column gap-0 row-gap-2 text-gray-dark">
             <p
-              className={`m-0 fw-light px-4 fw-bold ${
+              className={`m-0 fw-light px-4 fw-bold fs-label text-uppercase text-gray-dark ${
                 collapse || isMobile ? "d-none" : ""
               }`}
             >
               AI Engine
             </p>
             <div className="d-flex flex-column gap-0 row-gap-2">
-              {engine.map(({ nama, icon }, index) => (
+              {engine.map(({ nama, icon, url }, index) => (
                 <div key={index}>
                   <div
-                    className={`w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-1 ${menuList ===
-                      nama && "bg-primary-light text-primary"} ${
-                      collapse || isMobile ? "p-2" : "px-4 py-2"
-                    }`}
+                    className={`w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-2 ${
+                      menuList === nama && "bg-primary-light text-primary"
+                    } ${collapse ? "p-2" : "px-4 py-2"}`}
                     key={index}
-                    onClick={() => setMenuList(nama)}
+                    onClick={() => {
+                      router.push(`/dashboard/${url}`);
+                      setMenuList(nama);
+                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     {icon}{" "}
-                    <span className={`${collapse || isMobile ? "d-none" : ""}`}>
+                    <span
+                      className={`ms-1 fs-sub-normal ${
+                        collapse ? "d-none" : ""
+                      }`}
+                    >
                       {nama}
                     </span>
                   </div>
@@ -183,27 +203,30 @@ const VerticalNavbar = () => {
               ))}
             </div>
           </div>
-          <div className="d-flex flex-column gap-0 row-gap-2">
+          <div className="d-flex flex-column gap-0 row-gap-2 text-gray-dark">
             <p
-              className={`m-0 fw-light px-4 fw-bold ${
-                collapse || isMobile ? "d-none" : ""
+              className={`m-0 fw-light px-4 fw-bold fs-label text-gray-dark text-uppercase ${
+                collapse ? "d-none" : ""
               }`}
             >
               Annotation Tool
             </p>
             <div className="d-flex flex-column gap-0 row-gap-2">
-              {menu.map(({ nama, icon }, index) => (
+              {menu.map(({ nama, icon, url }, index) => (
                 <div key={index}>
                   <div
-                    className={`text-start w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-1 ${menuList ===
-                      nama && "bg-primary-light text-primary"} ${
-                      collapse || isMobile ? "p-2" : "px-4 py-2"
-                    }`}
+                    className={`text-start w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-3 ${
+                      menuList === nama && "bg-primary-light text-primary"
+                    } ${collapse ? "p-2" : "px-4 py-2"}`}
                     key={index}
-                    onClick={() => setMenuList(nama)}
+                    onClick={() => {
+                      setMenuList(nama);
+                      router.push(`/dashboard/${url}`);
+                    }}
+                    style={{ cursor: "pointer" }}
                   >
                     {icon}{" "}
-                    <span className={`${collapse || isMobile ? "d-none" : ""}`}>
+                    <span className={`${collapse ? "d-none" : ""} fs-normal`}>
                       {nama}
                     </span>
                   </div>
@@ -211,27 +234,29 @@ const VerticalNavbar = () => {
               ))}
             </div>
           </div>
-          <div className="d-flex flex-column gap-0 row-gap-2">
+          <div className="d-flex flex-column gap-0 row-gap-2 text-gray-dark">
             <p
-              className={`m-0 fw-light px-4 fw-bold ${
-                collapse || isMobile ? "d-none" : ""
+              className={`m-0 fw-light px-4 fw-bold fs-label text-gray-dark text-uppercase ${
+                collapse && "d-none"
               }`}
             >
-              Annotation Tool
+              Information
             </p>
             <div className="d-flex flex-column gap-0 row-gap-2">
-              {information.map(({ nama, icon }, index) => (
+              {information.map(({ nama, icon, url }, index) => (
                 <div key={index}>
                   <div
-                    className={`text-start w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-1 ${menuList ===
-                      nama && "bg-primary-light text-primary"} ${
-                      collapse ? "p-2" : "px-4 py-2"
-                    }`}
+                    className={`text-start w-100 rounded-5 d-flex flex-row align-items-center gap-0 column-gap-3 ${
+                      menuList === nama && "bg-primary-light text-primary"
+                    } ${collapse ? "p-2" : "px-4 py-2"}`}
                     key={index}
                     onClick={() => setMenuList(nama)}
+                    style={{ cursor: "pointer" }}
                   >
                     {icon}{" "}
-                    <span className={`${collapse && "d-none"}`}>{nama}</span>
+                    <span className={`ms-1 fs-normal ${collapse && "d-none"}`}>
+                      {nama}
+                    </span>
                   </div>
                 </div>
               ))}

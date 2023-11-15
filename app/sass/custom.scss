@@ -6,11 +6,16 @@ $theme-colors: (
     "gray-light": #C6C5C8,
     "gray-dark": #576168, 
     "primary-light": #F5D9D9,
+    "blue": #CFF4FC,
+    "font-darkblue": #055160,
 );
 
+
 $font-sizes: (
-    'heading': 30px,
-    'regular': 16px
+    'title': 24px,
+    'sub-title': 18px,
+    'normal': 16px,
+    'label': 12px,
 );
 
 $focus-ring-width: 0px;

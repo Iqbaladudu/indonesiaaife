@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useEffect, useRef, useState } from "react";
 import { Col, Container, Form, Row } from "react-bootstrap";
 import Link from "next/link";
 import Button from "@/components/variants/button";
@@ -10,6 +10,7 @@ import loginImage from "@/public/loginImage.svg";
 import styles from "./styles.module.css";
 import { useMediaQuery } from "react-responsive";
 import Slider from "react-slick";
+import Loading from "./loading";
 
 const LoginPage = () => {
   const isMobile = useMediaQuery({ query: "(max-width: 768px)" });
@@ -20,83 +21,89 @@ const LoginPage = () => {
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    speed: 2000,
-    autoplaySpeed: 1000,
+    // speed: 2000,
+    autoplaySpeed: 4000,
     cssEase: "linear",
+    dotsClass: `${styles.sliderDots} slick-dots`,
+    customPaging: (i) => <div className={styles.sliderDot}></div>,
+    appendDots: (dots) => (
+      <div>
+        {dots.map((dot, index) => (
+          <a
+            key={index}
+            className={dot.props.className === "slick-active" ? "" : ""}
+          >
+            {dot}
+          </a>
+        ))}
+      </div>
+    ),
   };
 
   return (
     <Container fluid>
       <Row>
+        <Col className="col-12 col-md-5 vh-100 d-flex align-items-center justify-content-center">
+          <div className="px-3 w-100 w-md-75">
+            <div className="d-flex flex-column justify-content-center text-start a">
+              <p className="fs-title fw-bold mb-1 text-primary">
+                Halo sahabat AI!
+              </p>
+              <p className="fs-normal">
+                Selamat datang di Annotation Tools Apps
+              </p>
+            </div>
+            <div className={`${isMobile && styles.mobileWidth} w-100`}>
+              <LoginForm />
+            </div>
+          </div>
+        </Col>
         <Col
-          className={`bg-primary d-flex flex-column justify-content-center align-items-center vh-100 ${
+          className={`col-12 col-md-7 bg-primary d-flex flex-column justify-contents-center align-items-center min-vh-100 ${
             isMobile && "d-none"
           }`}
         >
-          <Image src={loginImage} alt="" className="" />
-          <Slider
-            {...settings}
-            className={`${styles.swiperWidth}`}
-            arrows={false}
-            autoplay
-            infinite
-            pauseOnHover
-            pauseOnDotsHover
-            pauseOnFocus
-          >
-            <div>
-              <p
-                style={{ fontSize: "30px" }}
-                className="fw-bold text-white text-center"
-              >
-                Lorem ipsum dolor sit amet
-              </p>
-              <p className="text-white text-center w-100 mx-auto">
-                Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam
-              </p>
-            </div>
-            <div>
-              <p
-                style={{ fontSize: "30px" }}
-                className="fw-bold text-white text-center"
-              >
-                Lorem ipsum dolor sit amet 2
-              </p>
-              <p className="text-white text-center w-100 mx-auto">
-                Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam
-              </p>
-            </div>
-            <div>
-              <p
-                style={{ fontSize: "30px" }}
-                className="fw-bold text-white text-center"
-              >
-                Lorem ipsum dolor sit amet 3
-              </p>
-              <p className="text-white text-center w-100 mx-auto">
-                Consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam
-              </p>
-            </div>
-          </Slider>
-        </Col>
-        <Col className="bg-light vh-100 d-flex align-items-center justify-content-center">
-          <Row className="px-5">
-            <div
-              style={{ marginBottom: "43px" }}
-              className="d-flex flex-column justify-content-center text-center a"
+          <div className="d-flex flex-column justify-contents-center align-items-center my-auto">
+            <Image src={loginImage} alt="" className="w-75 h-auto mb-4" />
+            <Suspense fallback={<Loading />}></Suspense>
+            <Slider
+              {...settings}
+              className={`${styles.swiperWidth} px-md-5 px-4`}
+              arrows={false}
+              autoplay
+              infinite
+              pauseOnHover
+              pauseOnDotsHover
             >
-              <p className="fs-heading fw-bold">Hello Again</p>
-              <p className="fs-regular fw-normal">
-                Login to start an exciting journey
-              </p>
-            </div>
-            <div>
-              <LoginForm />
-            </div>
-          </Row>
+              <div className={`${styles.mb40}`}>
+                <p className="fw-bold text-white text-center fs-normal mb-2">
+                  Lorem ipsum dolor sit amet
+                </p>
+                <p className="text-white text-center w-100 mx-auto fs-label">
+                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </p>
+              </div>
+              <div className={`${styles.mb40}`}>
+                <p className="fw-bold text-white text-center fs-normal mb-2">
+                  Lorem ipsum dolor sit amet 2
+                </p>
+                <p className="text-white text-center w-100 mx-auto fs-label mb-3">
+                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </p>
+              </div>
+              <div className={`${styles.mb40}`}>
+                <p className="fw-bold text-white text-center fs-normal mb-2">
+                  Lorem ipsum dolor sit amet 3
+                </p>
+                <p className="text-white text-center w-100 mx-auto fs-label">
+                  Consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua. Ut enim ad minim veniam
+                </p>
+              </div>
+            </Slider>
+          </div>
         </Col>
       </Row>
     </Container>
@@ -104,23 +111,32 @@ const LoginPage = () => {
 };
 
 function EmailForm(props) {
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    inputRef.current.focus();
+  }, []);
+
   return (
-    <div>
-      <Form.Label>Email</Form.Label>
+    <div className="mb-2">
+      <Form.Label className="fs-label opacity-50">Email</Form.Label>
       <div
-        className={`d-flex rounded-3 border overflow-hidden border-1 ${
+        className={` d-flex rounded-2 border overflow-hidden border-1 ${
           props.inputEmail && styles.boxShadowPrimary
         }`}
       >
         <Form.Control
+          autoFocus
           type="email"
-          placeholder="Enter email"
-          className="bg-light border border-0"
+          placeholder="Masukkan email"
+          className={`bg-transparent border rounded-2 border-0 text-normal ${styles.inputStyles} form-control p-md-5 p-4 w-100`}
           onFocus={() => props.setInputEmail(true)}
           onBlur={() => props.setInputEmail(false)}
           aria-label="email"
+          controlId="email"
+          ref={inputRef}
         />
-        <div className="mx-3 fs-heading fw-bold text-gray">
+        <div className="d-flex align-items-center mx-3 fs-title fw-bold text-gray">
           <Image src="/email.svg" alt="Email" width={20} height={20} />
         </div>
       </div>
@@ -130,9 +146,9 @@ function EmailForm(props) {
 
 function PasswordForm(props) {
   return (
-    <div className="d-flex flex-column gap-0 row-gap-3">
+    <div className="d-flex flex-column gap-0 row-gap-3 mb-3">
       <div>
-        <Form.Label>Password</Form.Label>
+        <Form.Label className="fs-label opacity-50">Password</Form.Label>
         <div
           className={`d-flex rounded-3 border overflow-hidden border-1 ${
             props.inputPassword && styles.boxShadowPrimary
@@ -140,23 +156,34 @@ function PasswordForm(props) {
         >
           <Form.Control
             type="password"
-            placeholder="Enter password"
-            className="bg-light border border-0"
+            placeholder="Masukkan password"
+            className={`bg-transparent border border-0 rounded-2 text-normal ${styles.inputStyles} form-control p-md-5 p-4 w-100`}
             onFocus={() => props.setInputPassword(true)}
             onBlur={() => props.setInputPassword(false)}
             aria-label="password"
-            id="a"
+            controlId="password"
           />
-          <div className="mx-3 fs-heading fw-bold text-gray">
-            <Image src="/lock.svg" alt="Lock" width={20} height={20} />
+          <div className="mx-3 my-auto fs-title fw-bold text-gray d-flex">
+            <Image
+              src="/lock.svg"
+              alt="Lock"
+              width={20}
+              height={20}
+              className=""
+            />
           </div>
         </div>
       </div>
       <div className="d-flex justify-content-between">
-        <Form.Check type="checkbox" id="remember-password" label="Ingat saya" />
+        <Form.Check
+          className="fs-label"
+          type="checkbox"
+          controlId="remember-password"
+          label="Ingat saya"
+        />
         <Link
           href="#"
-          className="text-primary link-underline link-underline-opacity-0"
+          className="text-primary link-underline link-underline-opacity-0 fs-label"
         >
           Lupa password?
         </Link>
@@ -166,13 +193,13 @@ function PasswordForm(props) {
 }
 
 const LoginForm = () => {
-  const [inputEmail, setInputEmail] = useState(false);
+  const [inputEmail, setInputEmail] = useState(true);
   const [inputPassword, setInputPassword] = useState(false);
 
   return (
     <Form>
       <Form.Group
-        className="mb-3 d-flex flex-column gap-0 row-gap-5"
+        className="mb-3 d-flex flex-column gap-0 row-gap-2"
         controlId="formBasicEmail"
       >
         <EmailForm inputEmail={inputEmail} setInputEmail={setInputEmail} />
@@ -183,15 +210,13 @@ const LoginForm = () => {
         <Button>Login</Button>
       </Form.Group>
       <div className="d-flex justify-content-center">
-        <p>
-          Belum punya akun?{" "}
-          <Link
-            href="#"
-            className="text-primary link-underline link-underline-opacity-0"
-          >
-            Daftar
-          </Link>
-        </p>
+        Belum punya akun?{" "}
+        <Link
+          href="#"
+          className="ms-2 text-primary link-underline link-underline-opacity-0"
+        >
+          Daftar
+        </Link>
       </div>
     </Form>
   );
